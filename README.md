@@ -54,8 +54,8 @@ c-security-labs/
 
 | Chapter | Topic | Status |
 |---|---|---|
-| Chapter 1 | Introduction & Hacker Mindset | 🔨 In Progress |
-| Chapter 2 | Programming | ⏳ Upcoming |
+| Chapter 1 | Introduction & Hacker Mindset | ✅ Done |
+| Chapter 2 | Programming | 🔨 In Progress |
 | Chapter 3 | Exploitation | ⏳ Upcoming |
 | Chapter 4 | Networking | ⏳ Upcoming |
 | Chapter 5 | Shellcode | ⏳ Upcoming |
