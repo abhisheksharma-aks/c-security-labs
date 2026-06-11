@@ -1,0 +1,76 @@
+gdb -q ./a.out
+Reading symbols from ./a.out...
+(gdb) break main
+Breakpoint 1 at 0x114f: file firstprog.c, line 5.
+(gdb) run
+Starting program: /home/mindcarrier/Documents/c-security-labs/chapter2-programming/a.out
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.archlinux.org>
+  <https://debuginfod.cachyos.org>
+Enable debuginfod for this session? (y or [n]) y
+Debuginfod has been enabled.
+To make this setting permanent, add 'set debuginfod enabled on' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+
+Breakpoint 1, main () at firstprog.c:5
+5		for(i=0; i < 10; i++)			//Loop 10 times
+(gdb) info registers
+rax            0x7ffff7e50de8      140737352371688
+rbx            0x0                 0
+rcx            0x555555557dd8      93824992247256
+rdx            0x7fffffffe4d8      140737488348376
+rsi            0x7fffffffe4c8      140737488348360
+rdi            0x1                 1
+rbp            0x7fffffffe3a0      0x7fffffffe3a0
+rsp            0x7fffffffe390      0x7fffffffe390
+r8             0x7ffff7e49680      140737352341120
+r9             0x7ffff7e4afa0      140737352347552
+r10            0x7fffffffe3e0      140737488348128
+r11            0x206               518
+r12            0x1                 1
+r13            0x555555557dd8      93824992247256
+r14            0x7ffff7ffd000      140737354125312
+r15            0x7fffffffe4d8      140737488348376
+rip            0x55555555514f      0x55555555514f <main+15>
+eflags         0x206               [ PF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+pl3_ssp        <unavailable>
+fs_base        0x7ffff7f8d740      140737353668416
+gs_base        0x0                 0
+(gdb)
+
+This is the debugged called GDB. Debuggers are used by programmers to step through compiled 
+programs, examine program memory, and view processor registers.
+
+GDB here is used to show the state of the processor register right before the program starts.
+
+A breakpoint is set on the main() function so execution will stop right before our code is 
+executed. Then GDB runs the program, stops at the breakpoint, and is told to display all
+the processor registers and their current states.
+
+The first four registers (RAX, RBX, RCX, RDX) are known as general purpose registers. These
+are called the accumulator, base, counter and data registers, respectively. They are used
+for variety of purposes, but they mainly act as temporary variables for the CPU when it is 
+executing machine instructions.
+
+The second four registers (RSI, RDI, RBP, RSP) are also general purpose registers, but they
+are sometimes known as pointers and indexes. These stand for Source Index, Destination 
+Index, Base Pointer and Stack Pointer respectively. The last two register are called pointers
+because they store 32-bit addresses, which essentially point to that location in memory.
+These registers are fairly important to program execution and memory management.
+The first two pointers are also technically pointers, which are commonly used to point to 
+source and destination when data need to be read from or written to.
+
+
+The RIP register is the Instruction Pointer register, which points to current instruction the
+processor is reading.
+
+The remaining EFLAGS register actually consists of several bit flags that are used for 
+comparisons and memory segmentations. 
