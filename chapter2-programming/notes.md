@@ -56,11 +56,40 @@ architecture.
 
 Examples -
 (gdb) x/8xb $rip
-0x55555555514f <main+15>:	0xc7	0x45	0xf8	0x00	0x00	0x00	0x00	0x83
+0x55555555514f <main+15>:       0xc7    0x45    0xf8    0x00    0x00    0x00    0x00    0x83
 (gdb) x/8xw $rip
-0x55555555514f <main+15>:	0x00f845c7	0x83000000	0x7d0af87d	0x3d8d4819
-0x55555555515f <main+31>:	0x00000ea1	0xc6e800b0	0x8bfffffe	0xc083f845
-(gdb) x/8xh $rip
-0x55555555514f <main+15>:	0x45c7	0x00f8	0x0000	0x8300	0xf87d	0x7d0a	0x4819	0x3d8d
+0x55555555514f <main+15>:       0x00f845c7      0x83000000      0x7d0af87d      0x3d8d4819
+0x55555555515f <main+31>:       0x00000ea1      0xc6e800b0      0x8bfffffe      0xc083f845
+
+Here, the last address at the first position, with the bytes reversed. This same byte
+reversal effect can be seen when a full four-byte word is shown. 
+This is because on the x86 processor values are store in little-endian byte order, which 
+means the least significant byte is stored first. 
 
 
+(gdb) i r $rip
+rip            0x55555555514f      0x55555555514f <main+15>
+(gdb) x/4xb $rip
+0x55555555514f <main+15>:	0xc7	0x45	0xf8	0x00
+(gdb) x/4ub $rip
+0x55555555514f <main+15>:	199	69	248	0
+(gdb) x/luw $rip
+0x55555555514f <main+15>:	16270791
+(gdb) x/lxw $rip
+0x55555555514f <main+15>:	0x00f845c7
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 5092] will be killed.
+
+Quit anyway? (y or n) y
+
+~/Documents/c-security-labs/chapter2-programming main* 1m 8s
+❯ bc -ql
+199 + (69 * 256) + (248 * 256^2) + (0 * 256^3)
+16270791
+quit
+
+Here, we can see in the calculator too, that when we use the byte order of x/4ub $rip 
+on the calculator and use the least significant bit at the higher power, we get the same
+address as x/luw $rip. 
