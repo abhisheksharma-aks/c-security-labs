@@ -93,3 +93,52 @@ quit
 Here, we can see in the calculator too, that when we use the byte order of x/4ub $rip 
 on the calculator and use the least significant bit at the higher power, we get the same
 address as x/luw $rip. 
+
+The examine command also accepts the format letter i, short for instruction, to display 
+the memory as disassembled assembly language instructions.
+
+
+gdb -q ./a.out
+Reading symbols from ./a.out...
+(gdb) break main
+Breakpoint 1 at 0x114f: file firstprog.c, line 5.
+(gdb) run
+Starting program: /home/mindcarrier/Documents/c-security-labs/chapter2-programming/a.out
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.archlinux.org>
+  <https://debuginfod.cachyos.org>
+Enable debuginfod for this session? (y or [n]) y
+Debuginfod has been enabled.
+To make this setting permanent, add 'set debuginfod enabled on' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+
+Breakpoint 1, main () at firstprog.c:5
+5		for(i=0; i < 10; i++)			//Loop 10 times
+(gdb) i r $rip
+rip            0x55555555514f      0x55555555514f <main+15>
+(gdb) x/i $rip
+=> 0x55555555514f <main+15>:	mov    DWORD PTR [rbp-0x8],0x0
+(gdb) x/3i $rip
+=> 0x55555555514f <main+15>:	mov    DWORD PTR [rbp-0x8],0x0
+   0x555555555156 <main+22>:	cmp    DWORD PTR [rbp-0x8],0xa
+   0x55555555515a <main+26>:	jge    0x555555555175 <main+53>
+(gdb) x/7xb $rip
+0x55555555514f <main+15>:	0xc7	0x45	0xf8	0x00	0x00	0x00	0x00
+(gdb) x/i $rip
+=> 0x55555555514f <main+15>:	mov    DWORD PTR [rbp-0x8],0x0
+
+
+Normally, x/Nb, x/Nw etc. show you fixed size chunks -but instructions aren't fixed size!
+some are 1 byte, some are 7 bytes, some are longer.
+
+x/i understands instructions boundaries - it know exactly where one instruction ends and the 
+next begins, based on the opcode rules of x86.
+
+Same data, two views - one for humans, one for the machine(raw bytes)
+This also exactly what objdump -o does for the entire binary at once -x/i just does it live,
+instruction by instruction, while debugging.
+
+
+You can see the ascii table at - man ascii
